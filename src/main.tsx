@@ -12,7 +12,31 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>,
 )
 
-// Use contextBridge
+// Use contextBridge or Mock for Web Preview
+if (!window.ipcRenderer) {
+  console.warn('[WebPreview] ipcRenderer is not available in browser. Mocking for preview...');
+  (window as any).ipcRenderer = {
+    on: (_channel: string, _listener: (...args: any[]) => void) => {
+      console.log(`[MockIPC] Register listener for: ${_channel}`);
+      return () => {};
+    },
+    removeListener: (_channel: string, _listener: (...args: any[]) => void) => {},
+    send: (_channel: string, ..._args: any[]) => {
+      console.log(`[MockIPC] send (ignored): ${_channel}`, ..._args);
+    },
+    invoke: async (_channel: string, ..._args: any[]) => {
+      console.log(`[MockIPC] invoke (returning null): ${_channel}`, ..._args);
+      if (_channel === 'storage-get-app-data-path') return '/tmp/moyin-web-preview';
+      if (_channel.startsWith('storage-')) return { success: true, data: null };
+      return null;
+    },
+    sendSync: (_channel: string, ..._args: any[]) => {
+      console.log(`[MockIPC] sendSync: ${_channel}`);
+      return null;
+    }
+  };
+}
+
 window.ipcRenderer.on('main-process-message', (_event, message) => {
   console.log(message)
 })
