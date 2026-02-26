@@ -20,7 +20,8 @@
     "prebuild": "powershell -Command \"Stop-Process -Name 'moyin-creator' -ErrorAction SilentlyContinue; Stop-Process -Name '魔因漫创' -ErrorAction SilentlyContinue; Stop-Process -Name 'moyin-creator-*-setup' -ErrorAction SilentlyContinue; if (Test-Path release) { Remove-Item -Recurse -Force release -ErrorAction SilentlyContinue }\"",
     "build:win": "electron-vite build && electron-builder --win",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "electron-vite preview"
+    "preview": "electron-vite preview",
+    "build:web": "vite build"
   },
   "dependencies": {
     "@radix-ui/react-context-menu": "^2.2.16",
