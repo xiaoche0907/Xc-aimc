@@ -390,7 +390,7 @@ export async function callVideoGenerationApi(
 
   switch (format) {
     case 'openai_official':
-      return callOpenAIOfficialVideoApi(apiKey, prompt, videoBaseUrl, model, aspectRatio, duration, videoResolution, onProgress, keyManager);
+      return callOpenAIOfficialVideoApi(apiKey, prompt, videoBaseUrl, model, aspectRatio, processedImages, duration, videoResolution, onProgress, keyManager);
     case 'volc':
       return callVolcVideoApi(apiKey, prompt, videoBaseUrl, model, aspectRatio, processedImages, videoResolution, duration, cameraFixed, onProgress, keyManager, videoRefs, audioRefs);
     case 'wan':
@@ -424,14 +424,32 @@ function toRunwayRatio(aspectRatio: string): string {
   return map[aspectRatio] ?? aspectRatio;
 }
 
+type VideoApiResponse = {
+  data?: Array<{ url?: string; status?: string; [key: string]: unknown }>;
+  url?: string;
+  output?: string | string[] | { url?: string; [key: string]: unknown };
+  outputs?: string[];
+  video_url?: string;
+  result_url?: string;
+  response?: { url?: string; [key: string]: unknown };
+  task_id?: string | number;
+  id?: string | number;
+  request_id?: string | number;
+  status?: string;
+  state?: string;
+  message?: string;
+  error?: string | { message?: string; [key: string]: unknown };
+  [key: string]: unknown;
+};
+
 /**
  * Extract video URL from various response formats
  */
-function extractVideoUrl(data: Record<string, any>): string | null {
+function extractVideoUrl(data: VideoApiResponse): string | null {
   const url =
     data.data?.[0]?.url ||
     data.url ||
-    data.output?.url ||
+    (typeof data.output === 'object' && !Array.isArray(data.output) ? data.output?.url : null) ||
     (typeof data.output === 'string' && data.output.startsWith('http') ? data.output : null) ||
     (Array.isArray(data.output) && typeof data.output[0] === 'string' ? data.output[0] : null) ||
     data.outputs?.[0] ||
@@ -501,7 +519,7 @@ async function callUnifiedVideoApi(
     `${baseUrl}/v1/video/create`,
   ];
 
-  let submitData: any = null;
+  let submitData: VideoApiResponse | null = null;
   let submitError: Error | null = null;
   for (const submitUrl of submitUrls) {
     const resp = await fetch(submitUrl, {
@@ -562,6 +580,9 @@ async function callUnifiedVideoApi(
       if (!statusResponse.ok) continue;
 
       const statusData = await statusResponse.json();
+      if (statusData.status === 'failed' || statusData.status === 'error') {
+        process.env.NODE_ENV !== 'production' && console.error('[VideoGen] Task failed detailed response:', statusData);
+      }
       console.log(`[VideoGen] Unified task ${taskId} status:`, statusData);
 
       const status = String(statusData.status || statusData.state || statusData.data?.status || '').toLowerCase();
@@ -977,6 +998,7 @@ async function callOpenAIOfficialVideoApi(
   baseUrl: string,
   model: string,
   aspectRatio: string,
+  imageWithRoles: Array<{ url: string; role: string }>,
   duration?: number,
   videoResolution?: string,
   onProgress?: (progress: number) => void,
@@ -988,8 +1010,23 @@ async function callOpenAIOfficialVideoApi(
   form.append('size', toSoraSize(aspectRatio, videoResolution));
   form.append('seconds', String(duration || 10));
 
+  // Sora image inputs: handle first frame (image-to-video)
+  const firstFrame = imageWithRoles.find(img => img.role === 'first_frame');
+  if (firstFrame?.url) {
+    if (firstFrame.url.startsWith('http')) {
+      form.append('image', firstFrame.url);
+    } else {
+      console.warn('[VideoGen] Sora API requires HTTP URL for image, skipping non-HTTP url:', firstFrame.url.substring(0, 50));
+    }
+  }
+
   const submitUrl = `${baseUrl}/v1/videos`;
-  console.log('[VideoGen] OpenAI Official format → POST /v1/videos', { model, size: toSoraSize(aspectRatio, videoResolution) });
+  console.log('[VideoGen] OpenAI Official format → POST /v1/videos', {
+    model,
+    size: toSoraSize(aspectRatio, videoResolution),
+    hasImage: !!firstFrame?.url,
+    imageUrl: firstFrame?.url?.substring(0, 50)
+  });
 
   const submitResponse = await fetch(submitUrl, {
     method: 'POST',
