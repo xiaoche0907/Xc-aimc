@@ -15,23 +15,23 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 // Use contextBridge or Mock for Web Preview
 if (!window.ipcRenderer) {
   console.warn('[WebPreview] ipcRenderer is not available in browser. Mocking for preview...');
-  (window as any).ipcRenderer = {
-    on: (_channel: string, _listener: (...args: any[]) => void) => {
-      console.log(`[MockIPC] Register listener for: ${_channel}`);
+  (window as unknown as { ipcRenderer: unknown }).ipcRenderer = {
+    on: (channel: string) => {
+      console.log(`[MockIPC] Register listener for: ${channel}`);
       return () => {};
     },
-    removeListener: (_channel: string, _listener: (...args: any[]) => void) => {},
-    send: (_channel: string, ..._args: any[]) => {
-      console.log(`[MockIPC] send (ignored): ${_channel}`, ..._args);
+    removeListener: () => {},
+    send: (channel: string, ...args: unknown[]) => {
+      console.log(`[MockIPC] send (ignored): ${channel}`, ...args);
     },
-    invoke: async (_channel: string, ..._args: any[]) => {
-      console.log(`[MockIPC] invoke (returning null): ${_channel}`, ..._args);
-      if (_channel === 'storage-get-app-data-path') return '/tmp/moyin-web-preview';
-      if (_channel.startsWith('storage-')) return { success: true, data: null };
+    invoke: async (channel: string, ...args: unknown[]) => {
+      console.log(`[MockIPC] invoke (returning null): ${channel}`, ...args);
+      if (channel === 'storage-get-app-data-path') return '/tmp/moyin-web-preview';
+      if (channel.startsWith('storage-')) return { success: true, data: null };
       return null;
     },
-    sendSync: (_channel: string, ..._args: any[]) => {
-      console.log(`[MockIPC] sendSync: ${_channel}`);
+    sendSync: (channel: string) => {
+      console.log(`[MockIPC] sendSync: ${channel}`);
       return null;
     }
   };
