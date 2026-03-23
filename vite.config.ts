@@ -16,7 +16,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    electron({
+    !process.env.VERCEL && electron({
       main: {
         // Shortcut of `build.lib.entry`.
         entry: 'electron/main.ts',
@@ -34,5 +34,5 @@ export default defineConfig({
         ? undefined
         : {},
     }),
-  ],
+  ].filter(Boolean),
 })
