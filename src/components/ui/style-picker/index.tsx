@@ -35,6 +35,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   '2d': 'bg-green-500/20 text-green-600',
   'real': 'bg-amber-500/20 text-amber-600',
   'stop_motion': 'bg-purple-500/20 text-purple-600',
+  'e_commerce': 'bg-rose-500/20 text-rose-600',
+  'street_snap': 'bg-indigo-500/20 text-indigo-600',
 };
 
 interface StylePickerProps {

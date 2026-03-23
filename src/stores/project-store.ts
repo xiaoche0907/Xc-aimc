@@ -27,7 +27,7 @@ interface ProjectStore {
 // Default project for desktop app
 const DEFAULT_PROJECT: Project = {
   id: "default-project",
-  name: "魔因漫创项目",
+  name: "小彻分镜项目",
   createdAt: Date.now(),
   updatedAt: Date.now(),
 };
@@ -97,7 +97,7 @@ export const useProjectStore = create<ProjectStore>()(
         });
         // Clean up per-project storage directory
         if (window.fileStorage?.removeDir) {
-          window.fileStorage.removeDir(`_p/${id}`).catch((err: any) =>
+          window.fileStorage.removeDir(`_p/${id}`).catch((err: unknown) =>
             console.warn(`[ProjectStore] Failed to remove project dir _p/${id}:`, err)
           );
         }
@@ -120,9 +120,10 @@ export const useProjectStore = create<ProjectStore>()(
         projects: state.projects,
         activeProjectId: state.activeProjectId,
       }),
-      migrate: (persisted: any) => {
-        if (persisted?.projects && persisted.projects.length > 0) {
-          return persisted;
+      migrate: (persisted: unknown) => {
+        const data = persisted as { projects: Project[] } | undefined;
+        if (data?.projects && data.projects.length > 0) {
+          return data;
         }
         return {
           projects: [DEFAULT_PROJECT],

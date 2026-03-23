@@ -54,9 +54,7 @@ import {
   Check,
   X,
   Loader2,
-  MessageSquare,
   Zap,
-  ScanEye,
   Info,
   Image,
   RotateCcw,
@@ -328,7 +326,7 @@ export function SettingsPanel() {
       assignCharactersToProject(activeProjectId);
     }
     // Rehydrate to load/unload other projects' data
-    try { await useCharacterLibraryStore.persist.rehydrate(); } catch {}
+    try { await (useCharacterLibraryStore.persist as any).rehydrate(); } catch { /* ignore */ }
   };
 
   const handleToggleShareScenes = async (checked: boolean) => {
@@ -336,7 +334,7 @@ export function SettingsPanel() {
     if (!checked && activeProjectId) {
       assignScenesToProject(activeProjectId);
     }
-    try { await useSceneStore.persist.rehydrate(); } catch {}
+    try { await (useSceneStore.persist as any).rehydrate(); } catch { /* ignore */ }
   };
 
   const handleToggleShareMedia = async (checked: boolean) => {
@@ -344,7 +342,7 @@ export function SettingsPanel() {
     if (!checked && activeProjectId) {
       assignMediaToProject(activeProjectId);
     }
-    try { await useMediaStore.persist.rehydrate(); } catch {}
+    try { await (useMediaStore.persist as any).rehydrate(); } catch { /* ignore */ }
   };
 
   // Unified storage handlers
@@ -893,8 +891,8 @@ export function SettingsPanel() {
 
               {/* About */}
               <div className="text-center py-8 text-muted-foreground border-t border-border">
-                <p className="text-sm font-medium">魔因漫创 Moyin Creator</p>
-                <p className="text-xs mt-1">v0.1.7 · AI 驱动的动漫视频创作工具</p>
+                <p className="text-sm font-medium">小彻分镜 Moyin Creator</p>
+                <p className="text-xs mt-1">v0.1.7 · AI 驱动的电商视频创作工具</p>
               </div>
             </div>
           </ScrollArea>
@@ -1039,8 +1037,8 @@ export function SettingsPanel() {
 
               {/* About */}
               <div className="text-center py-8 text-muted-foreground border-t border-border">
-                <p className="text-sm font-medium">魔因漫创 Moyin Creator</p>
-                <p className="text-xs mt-1">v0.1.7 · AI 驱动的动漫视频创作工具</p>
+                <p className="text-sm font-medium">小彻分镜 Moyin Creator</p>
+                <p className="text-xs mt-1">v0.1.7 · AI 驱动的电商视频创作工具</p>
               </div>
             </div>
           </ScrollArea>
@@ -1182,8 +1180,8 @@ export function SettingsPanel() {
 
               {/* About */}
               <div className="text-center py-8 text-muted-foreground border-t border-border">
-                <p className="text-sm font-medium">魔因漫创 Moyin Creator</p>
-                <p className="text-xs mt-1">v0.1.7 · AI 驱动的动漫视频创作工具</p>
+                <p className="text-sm font-medium">小彻分镜 Moyin Creator</p>
+                <p className="text-xs mt-1">v0.1.7 · AI 驱动的电商视频创作工具</p>
               </div>
             </div>
           </ScrollArea>
@@ -1390,8 +1388,8 @@ export function SettingsPanel() {
 
               {/* About */}
               <div className="text-center py-8 text-muted-foreground border-t border-border">
-                <p className="text-sm font-medium">魔因漫创 Moyin Creator</p>
-                <p className="text-xs mt-1">v0.1.7 · AI 驱动的动漫视频创作工具</p>
+                <p className="text-sm font-medium">小彻分镜 Moyin Creator</p>
+                <p className="text-xs mt-1">v0.1.7 · AI 驱动的电商视频创作工具</p>
               </div>
             </div>
           </ScrollArea>

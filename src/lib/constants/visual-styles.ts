@@ -9,7 +9,7 @@
  */
 
 // 风格分类
-export type StyleCategory = '3d' | '2d' | 'real' | 'stop_motion';
+export type StyleCategory = '3d' | '2d' | 'real' | 'stop_motion' | 'e_commerce' | 'street_snap';
 
 /**
  * 媒介类型 — 决定 prompt-builder 如何翻译摄影参数
@@ -545,6 +545,70 @@ const STYLES_STOP_MOTION: StylePreset[] = [
 ];
 
 // ============================================================
+// 电商类 (Amazon/TikTok/Catalog)
+// ============================================================
+
+const STYLES_ECOMMERCE: StylePreset[] = [
+  {
+    id: 'amazon_model',
+    name: 'Amazon 模特',
+    category: 'e_commerce',
+    mediaType: 'cinematic',
+    prompt: '(best quality, masterpiece, 8k, photorealistic:1.3), (fashion photography:1.2), (Amazon product catalog style:1.2), (full body shot:1.1), (clean white background:1.3), (even soft studio lighting:1.2), (highly detailed skin texture, realistic pores:1.1), sharp focus, natural colors, commercial quality',
+    negativePrompt: '(worst quality, low quality:1.4), (2D, anime, cartoon, 3d render:1.3), (messy background, outdoor:1.2), (harsh shadows), (distorted face, bad anatomy:1.2), watermark, logo, text, blurry',
+    description: '亚马逊电商风格，白底模特，摄影棚布光，写实肤质',
+    thumbnail: 'amazon_model.png',
+  },
+  {
+    id: 'tiktok_fashion',
+    name: 'TikTok 潮流',
+    category: 'e_commerce',
+    mediaType: 'cinematic',
+    prompt: '(best quality, masterpiece, 8k, photorealistic:1.3), (TikTok style short video still:1.2), (dynamic energetic mood:1.1), (natural urban lighting:1.1), (handheld camera feel:1.1), trendy outfit, stylish posing, vibrant lifestyle, sharp focus, cinematic bokeh',
+    negativePrompt: '(worst quality, low quality:1.4), (3d, anime), (studio background), (still, boring), watermark, text, signature',
+    description: '短视频风格，动感活力，自然光，潮流穿搭',
+    thumbnail: 'tiktok_fashion.png',
+  },
+  {
+    id: 'product_close_up',
+    name: '产品特写',
+    category: 'e_commerce',
+    mediaType: 'cinematic',
+    prompt: '(best quality, masterpiece, 8k, photorealistic:1.3), (macro photography:1.2), (product close-up:1.3), (studio lighting:1.1), (soft bokeh:1.1), extreme detail, clean background, sharp focus, ray tracing lighting',
+    negativePrompt: '(worst quality, low quality:1.4), (person, face, model), (blurry, out of focus), (dirty background), text, low res',
+    description: '产品细节拍摄，微距感，纯净背景',
+    thumbnail: 'product_close_up.png',
+  },
+];
+
+// ============================================================
+// 街拍类 (Street Snap)
+// ============================================================
+
+const STYLES_STREET: StylePreset[] = [
+  {
+    id: 'street_candid',
+    name: '自然街拍',
+    category: 'street_snap',
+    mediaType: 'cinematic',
+    prompt: '(best quality, masterpiece, 8k, photorealistic:1.3), (candid street photography:1.3), (35mm lens:1.1), (urban street background:1.2), (natural daylight:1.1), (soft depth of field, bokeh:1.2), (authentic mood:1.1), sharp focus, walking character',
+    negativePrompt: '(worst quality, low quality:1.4), (studio, white background), (posed, stiff), (3d, anime), low res, blurry',
+    description: '单反街拍，自然抓拍，35mm镜头，街道背景',
+    thumbnail: 'street_candid.png',
+  },
+  {
+    id: 'cyberpunk_street',
+    name: '都市赛博街拍',
+    category: 'street_snap',
+    mediaType: 'cinematic',
+    prompt: '(best quality, masterpiece, 8k, photorealistic:1.3), (cyberpunk street photography:1.2), (neon night lighting:1.3), (reflections on wet ground:1.1), (futuristic urban backdrop:1.1), vibrant cool tones, cinematic atmosphere',
+    negativePrompt: '(worst quality, low quality:1.4), (daylight), (natural), (anime, 3d), ugly, text',
+    description: '都市霓虹，赛博质感，夜间写实街摄',
+    thumbnail: 'cyberpunk_street.png',
+  },
+];
+
+// ============================================================
 // 导出
 // ============================================================
 
@@ -554,6 +618,8 @@ export const VISUAL_STYLE_PRESETS: readonly StylePreset[] = [
   ...STYLES_2D,
   ...STYLES_REAL,
   ...STYLES_STOP_MOTION,
+  ...STYLES_ECOMMERCE,
+  ...STYLES_STREET,
 ] as const;
 
 /** 分类信息 */
@@ -562,6 +628,8 @@ export const STYLE_CATEGORIES: { id: StyleCategory; name: string; styles: readon
   { id: '2d', name: '2D动画', styles: STYLES_2D },
   { id: 'real', name: '真人风格', styles: STYLES_REAL },
   { id: 'stop_motion', name: '定格动画', styles: STYLES_STOP_MOTION },
+  { id: 'e_commerce', name: '电商快拍', styles: STYLES_ECOMMERCE },
+  { id: 'street_snap', name: '潮流街拍', styles: STYLES_STREET },
 ];
 
 /** 根据 ID 获取风格 */
@@ -657,4 +725,4 @@ export const MEDIA_TYPE_LABELS: Record<MediaType, string> = {
 export type VisualStyleId = typeof VISUAL_STYLE_PRESETS[number]['id'];
 
 /** 默认风格 ID */
-export const DEFAULT_STYLE_ID: VisualStyleId = '2d_ghibli';
+export const DEFAULT_STYLE_ID: VisualStyleId = 'amazon_model';
