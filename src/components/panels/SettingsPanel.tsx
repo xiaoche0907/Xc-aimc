@@ -891,7 +891,7 @@ export function SettingsPanel() {
 
               {/* About */}
               <div className="text-center py-8 text-muted-foreground border-t border-border">
-                <p className="text-sm font-medium">小彻分镜 Moyin Creator</p>
+                <p className="text-sm font-medium">小彻导演台</p>
                 <p className="text-xs mt-1">v0.1.7 · AI 驱动的电商视频创作工具</p>
               </div>
             </div>
@@ -1037,7 +1037,7 @@ export function SettingsPanel() {
 
               {/* About */}
               <div className="text-center py-8 text-muted-foreground border-t border-border">
-                <p className="text-sm font-medium">小彻分镜 Moyin Creator</p>
+                <p className="text-sm font-medium">小彻导演台</p>
                 <p className="text-xs mt-1">v0.1.7 · AI 驱动的电商视频创作工具</p>
               </div>
             </div>
@@ -1180,7 +1180,7 @@ export function SettingsPanel() {
 
               {/* About */}
               <div className="text-center py-8 text-muted-foreground border-t border-border">
-                <p className="text-sm font-medium">小彻分镜 Moyin Creator</p>
+                <p className="text-sm font-medium">小彻导演台</p>
                 <p className="text-xs mt-1">v0.1.7 · AI 驱动的电商视频创作工具</p>
               </div>
             </div>
@@ -1388,7 +1388,7 @@ export function SettingsPanel() {
 
               {/* About */}
               <div className="text-center py-8 text-muted-foreground border-t border-border">
-                <p className="text-sm font-medium">小彻分镜 Moyin Creator</p>
+                <p className="text-sm font-medium">小彻导演台</p>
                 <p className="text-xs mt-1">v0.1.7 · AI 驱动的电商视频创作工具</p>
               </div>
             </div>

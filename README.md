@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="build/icon.png" width="120" alt="魔因漫创 Logo" />
+  <img src="build/icon.png" width="120" alt="小彻导演台 Logo" />
 </p>
-<h1 align="center">魔因漫创 Moyin Creator</h1>
+<h1 align="center">小彻导演台 Xiao Che Director Console</h1>
 
 <p align="center">
-  <strong>🎬 AI 影视生产级工具 · 支持 Seedance 2.0 · 剧本到成片全流程批量化</strong>
+  <strong>🎬 AI 影视生产级工具 · 支持 Seedance 2.0 · 电商/商业广告分镜全流程批量化</strong>
 </p>
 
 <p align="center">
@@ -38,7 +38,7 @@
 
 ## 简介
 
-**魔因漫创** 是一款面向 AI 影视创作者的生产级工具。五大板块环环相扣，覆盖从剧本到成片的完整创作链路：
+**小彻导演台** 是一款面向 AI 影视创作者的生产级工具。五大板块环环相扣，覆盖从商业分镜到视频成片的完整创作链路：
 
 > **📝 剧本 → 🎭 角色 → 🌄 场景 → 🎬 导演 → ⭐ S级（Seedance 2.0）**
 

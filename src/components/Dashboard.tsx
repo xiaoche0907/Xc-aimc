@@ -282,8 +282,8 @@ export function Dashboard() {
             <Aperture className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-foreground tracking-wide">小彻分镜</h1>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Storyboard Studio</p>
+            <h1 className="text-lg font-bold text-foreground tracking-wide">小彻导演台</h1>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Director Console</p>
           </div>
         </div>
         

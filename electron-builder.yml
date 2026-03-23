@@ -1,5 +1,5 @@
-appId: com.manju2026.moyin-creator
-productName: 魔因漫创
+appId: com.manju2026.xiaoche-director
+productName: 小彻导演台
 directories:
   buildResources: build
   output: release
@@ -21,7 +21,7 @@ asarUnpack:
 icon: build/icon.ico
 
 win:
-  executableName: moyin-creator
+  executableName: xiaoche-director
   icon: build/icon.ico
   forceCodeSigning: false
   target:
@@ -32,7 +32,7 @@ win:
 # NSIS 安装包配置
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: 魔因漫创
+  shortcutName: 小彻导演台
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
   createStartMenuShortcut: true

@@ -1,8 +1,8 @@
 {
   "name": "moyin-creator",
-  "productName": "魔因漫创",
+  "productName": "小彻导演台",
 "version": "0.1.7",
-  "description": "AI 驱动的动漫/短剧分镜创作工具",
+  "description": "AI 驱动的电商/商业广告分镜创作工具",
   "author": "MemeCalculate",
   "license": "AGPL-3.0-or-later",
   "repository": {

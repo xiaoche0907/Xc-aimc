@@ -52,73 +52,8 @@ type FieldStrategy = FieldOverrides | 'skip';
 
 type MediaTranslationTable = Partial<Record<CinematographyField, FieldStrategy>>;
 
-// ---------- animation ----------
+// 已移除旧的动画及定格动画翻译表，详见 visual-styles.ts
 
-const ANIMATION_TABLE: MediaTranslationTable = {
-  cameraRig: {
-    tripod:    'static frame composition,',
-    handheld:  'slight camera wobble, animated shake,',
-    steadicam: 'smooth gliding virtual camera,',
-    dolly:     'smooth tracking with parallax layers,',
-    crane:     'sweeping vertical arc camera,',
-    drone:     'aerial sweeping bird-eye view,',
-    shoulder:  'subtle animated camera sway,',
-    slider:    'smooth lateral pan with depth shift,',
-  },
-  depthOfField: {
-    'ultra-shallow': 'dreamy layered blur, strong foreground-background separation,',
-    shallow:         'soft background blur, depth layers,',
-    medium:          'moderate depth layering,',
-    deep:            'all layers in sharp focus,',
-    'split-diopter': 'dual-plane sharp focus, foreground and background clear,',
-  },
-  focusTransition: {
-    none:           '',
-    'rack-to-fg':   'focus shift to foreground layer,',
-    'rack-to-bg':   'focus shift to background layer,',
-    'rack-between': 'focus shift between character layers,',
-    'pull-focus':   'focus tracking subject movement,',
-  },
-  // lightingStyle / lightingDirection / colorTemperature / movementSpeed / playbackSpeed
-  // → 概念相通，不做翻译，沿用原始 token
-  // cameraAngle / focalLength / photographyTechnique → 虚拟摄像机可直接使用
-};
-
-// ---------- stop-motion ----------
-
-const STOP_MOTION_TABLE: MediaTranslationTable = {
-  cameraRig: {
-    tripod:    'locked miniature camera, tabletop framing,',
-    handheld:  'subtle stop-motion jitter,',
-    steadicam: 'smooth miniature track movement,',
-    dolly:     'miniature rail push-in,',
-    crane:     'overhead rig on miniature set,',
-    drone:     'overhead crane angle, miniature landscape,',
-    shoulder:  'gentle stop-motion wobble,',
-    slider:    'miniature slider lateral movement,',
-  },
-  depthOfField: {
-    'ultra-shallow': 'macro lens extreme bokeh, tilt-shift miniature feel,',
-    shallow:         'macro lens shallow DOF, miniature scale emphasis,',
-    medium:          'moderate DOF, miniature set visible,',
-    deep:            'deep focus, full miniature set sharp,',
-    'split-diopter': 'split focus, miniature foreground and background sharp,',
-  },
-  focusTransition: {
-    none:           '',
-    'rack-to-fg':   'rack focus to foreground prop,',
-    'rack-to-bg':   'rack focus to miniature background,',
-    'rack-between': 'rack focus between miniature figures,',
-    'pull-focus':   'pull focus following figure movement,',
-  },
-  playbackSpeed: {
-    'slow-motion-4x': 'fewer frames per movement, very deliberate pacing,',
-    'slow-motion-2x': 'reduced frame rate, deliberate pacing,',
-    normal:           '',
-    'fast-2x':        'rapid frame sequence,',
-    timelapse:        'rapid stop-motion sequence, time compression,',
-  },
-};
 
 // ---------- graphic ----------
 
@@ -165,8 +100,6 @@ const GRAPHIC_TABLE: MediaTranslationTable = {
 // ---------- 汇总查找 ----------
 
 const TRANSLATION_TABLES: Partial<Record<MediaType, MediaTranslationTable>> = {
-  animation:      ANIMATION_TABLE,
-  'stop-motion':  STOP_MOTION_TABLE,
   graphic:        GRAPHIC_TABLE,
   // cinematic 不需要翻译表
 };
@@ -223,10 +156,6 @@ export function getMediaTypeGuidance(mediaType: MediaType): string {
   switch (mediaType) {
     case 'cinematic':
       return 'This is a cinematic/live-action visual style. Use full physical cinematography vocabulary — real camera rigs, lens optics, lighting setups.';
-    case 'animation':
-      return 'This is an animation style. Adapt camera terms to virtual camera equivalents — use parallax layers instead of physical dolly, layer blur instead of optical DOF. Keep lighting and mood concepts.';
-    case 'stop-motion':
-      return 'This is a stop-motion style. Frame everything as miniature/tabletop photography — macro lenses, miniature sets, practical lighting on small scale. Respect frame-by-frame pacing.';
     case 'graphic':
       return 'This is a highly abstract graphic style (pixel art, watercolor, line art, etc.). Do NOT use physical camera or lens terminology. Describe visual composition, color palette, mood, and rhythm instead.';
   }

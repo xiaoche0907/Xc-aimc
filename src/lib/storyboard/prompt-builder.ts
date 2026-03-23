@@ -8,7 +8,7 @@
  * Uses the same structured format as Merged Generation for consistency.
  */
 
-import { calculateGrid, type AspectRatio, type Resolution, RESOLUTION_PRESETS } from './grid-calculator';
+import { calculateGrid, type AspectRatio, type Resolution } from './grid-calculator';
 
 export interface CharacterInfo {
   name: string;
@@ -104,23 +104,26 @@ export function buildRegenerationPrompt(config: StoryboardPromptConfig): string 
   return buildStoryboardPrompt(config);
 }
 
+import { getStyleById, DEFAULT_STYLE_ID } from '../constants/visual-styles';
+
 /**
  * Extract style tokens from style preset ID
  */
 export function getStyleTokensFromPreset(styleId: string): string[] {
-  const STYLE_PRESETS: Record<string, string[]> = {
-    ghibli: ['Studio Ghibli style', 'anime', 'soft colors', 'hand-drawn', 'whimsical'],
-    miyazaki: ['Miyazaki style', 'detailed backgrounds', 'fantasy', 'nature elements', 'dreamlike'],
-    disney: ['Disney animation style', '3D render', 'vibrant colors', 'expressive characters'],
-    pixar: ['Pixar style', '3D animation', 'detailed textures', 'cinematic lighting'],
-    cyberpunk: ['cyberpunk', 'neon lights', 'futuristic', 'dark atmosphere', 'high tech'],
-    watercolor: ['watercolor painting', 'soft edges', 'artistic', 'pastel colors', 'fluid'],
-    realistic: ['realistic', 'photorealistic', 'detailed', 'lifelike', 'high definition'],
-    anime: ['anime style', 'manga art', '2D animation', 'cel shaded', 'vibrant'],
-    idealized_realism: ['idealized realism', 'semi-realistic 2.5D illustration', 'Unreal Engine 5 render quality', 'volumetric lighting', 'detailed material textures (metal, fabric, fire)', 'cinematic atmosphere', 'highly detailed', 'between 2D and 3D'],
-  };
+  const style = getStyleById(styleId);
+  if (style) {
+    // 简单拆分主要关键词（用于组合复杂提示词）
+    return style.prompt
+      .replace(/\([^)]*:[0-9.]+\)/g, (match) => match.replace(/:[0-9.]+\)/, ')'))
+      .split(',')
+      .map(s => s.trim().replace(/^\(|\)$/g, ''))
+      .filter(s => s.length > 0)
+      .slice(0, 10);
+  }
   
-  return STYLE_PRESETS[styleId] || STYLE_PRESETS.ghibli;
+  // 回退到默认风格
+  const defaultStyle = getStyleById(DEFAULT_STYLE_ID);
+  return defaultStyle ? [defaultStyle.prompt] : ['realistic photography'];
 }
 
 /**

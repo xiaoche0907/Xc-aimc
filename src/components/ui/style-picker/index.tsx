@@ -31,11 +31,9 @@ import {
 
 // 风格分类对应的背景色（图片已移除，使用色块占位）
 const CATEGORY_COLORS: Record<string, string> = {
-  '3d': 'bg-blue-500/20 text-blue-600',
-  '2d': 'bg-green-500/20 text-green-600',
   'real': 'bg-amber-500/20 text-amber-600',
-  'stop_motion': 'bg-purple-500/20 text-purple-600',
   'e_commerce': 'bg-rose-500/20 text-rose-600',
+  'commercial': 'bg-purple-500/20 text-purple-600',
   'street_snap': 'bg-indigo-500/20 text-indigo-600',
 };
 
@@ -158,7 +156,9 @@ export function StylePicker({
                     "w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold",
                     CATEGORY_COLORS[selectedStyle.category] || 'bg-muted'
                   )}>
-                    {selectedStyle.category === '3d' ? '3D' : selectedStyle.category === '2d' ? '2D' : selectedStyle.category === 'real' ? '真' : '定'}
+                    {selectedStyle.category === 'real' ? '真' : 
+                     selectedStyle.category === 'e_commerce' ? '电' : 
+                     selectedStyle.category === 'commercial' ? '广' : '街'}
                   </span>
                 )}
                 <span className={!selectedStyle ? "text-muted-foreground" : ""}>
@@ -219,7 +219,9 @@ function StyleItem({ style, isSelected, onSelect, onHover, onLeave }: StyleItemP
         "w-10 h-10 rounded flex items-center justify-center text-[10px] font-bold flex-shrink-0",
         CATEGORY_COLORS[style.category] || 'bg-muted'
       )}>
-        {style.category === '3d' ? '3D' : style.category === '2d' ? '2D' : style.category === 'real' ? '真' : '定'}
+        {style.category === 'real' ? '真' : 
+         style.category === 'e_commerce' ? '电' : 
+         style.category === 'commercial' ? '广' : '街'}
       </span>
       {/* 名称 */}
       <span className="flex-1 text-left text-sm truncate">{style.name}</span>

@@ -39,7 +39,7 @@ let win: BrowserWindow | null;
 
 function createWindow() {
   win = new BrowserWindow({
-    title: "魔因漫创",
+    title: "小彻导演台",
     width: 1400,
     height: 900,
     minWidth: 1200,
