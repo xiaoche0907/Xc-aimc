@@ -326,7 +326,7 @@ export function SettingsPanel() {
       assignCharactersToProject(activeProjectId);
     }
     // Rehydrate to load/unload other projects' data
-    try { await (useCharacterLibraryStore.persist as any).rehydrate(); } catch { /* ignore */ }
+    try { await (useCharacterLibraryStore.persist as unknown as { rehydrate: () => Promise<void> }).rehydrate(); } catch { /* ignore */ }
   };
 
   const handleToggleShareScenes = async (checked: boolean) => {
@@ -334,7 +334,7 @@ export function SettingsPanel() {
     if (!checked && activeProjectId) {
       assignScenesToProject(activeProjectId);
     }
-    try { await (useSceneStore.persist as any).rehydrate(); } catch { /* ignore */ }
+    try { await (useSceneStore.persist as unknown as { rehydrate: () => Promise<void> }).rehydrate(); } catch { /* ignore */ }
   };
 
   const handleToggleShareMedia = async (checked: boolean) => {
@@ -342,7 +342,7 @@ export function SettingsPanel() {
     if (!checked && activeProjectId) {
       assignMediaToProject(activeProjectId);
     }
-    try { await (useMediaStore.persist as any).rehydrate(); } catch { /* ignore */ }
+    try { await (useMediaStore.persist as unknown as { rehydrate: () => Promise<void> }).rehydrate(); } catch { /* ignore */ }
   };
 
   // Unified storage handlers
